@@ -10,6 +10,7 @@ Extract a compressed block. Compression is used for tilemaps and tiles. Tilemaps
 Graphics are in the Genesis' native four bits per pixel format.
 
 Known offsets are:
+* `0x4da94`: Sidebar tilemap containing the HP labels.
 * `0x509ee`: Tiles for the large font.
 * `0x50dea`: Tiles for the small font used on the title screen and intro.
 * `0x5108c`: First intro text. (Large font.)
