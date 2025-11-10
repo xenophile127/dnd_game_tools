@@ -20,6 +20,7 @@ Known offsets are:
 * `0x64b14`: Title screen menu. The text "LOAD GAME" appears twice and something copies from the first occurrence for the submenu.
 * `0x63ef6`: The scroll at the end of the intro with text and the game logo.
 * `0x64e3a`: Title screen logo graphics.
+* `0x6bdc2`: Party defeated letter tiles. "YOURENTIREPARTYHASBEENDEFEATED" and so on.
 
 ## compress.py
 Compress a raw file. Attempts to vibe-code this were unsuccessful so it's a mix of my code with generated code. It does *not* produce output identical to the original for several reasons:
