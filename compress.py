@@ -44,7 +44,10 @@ def compress_copy(input_bytes, i):
             # Return a short/medium copy as well and let the caller decide between them.
             length = min(length, MAX_ABSOLUTE_LENGTH)
             if length > best_short[1]:
-                if length <= MAX_RELATIVE_LENGTH:
+                # The two absolute offset copies have a 16 bit offset but the relative copy can only store 12 bits.
+                # Relative copies cannot look backwards more than 4096 bytes.
+                relative_offset = i - index
+                if (length <= MAX_RELATIVE_LENGTH) and (relative_offset < 0x1000):
                     best_short = [[((length-3)<<4) | ((i - index) >> 8), ((i - index) & 0xff)], length]
                 else:
                     best_short = [[0xc0 | length - 3, index & 0xff, index >> 8], length]
@@ -59,33 +62,6 @@ def compress_raw(b):
     ret = [0x80 | len(b)]
     ret.extend(b)
     return ret
-
-def compress_relative_orig(input_bytes):
-    search_start = max(0, current_idx - MAX_RELATIVE_OFFSET)
-    
-    for search_idx in range(search_start, current_idx):
-        length = 0
-        max_possible_len = min(10, input_len - current_idx)
-            
-        while length < max_possible_len and input_bytes[current_idx + length] == input_bytes[search_idx + length]:
-            length += 1
-           
-        if length >= minimum_span:
-            offset = current_idx - search_idx
-            len_encoded = length - 3
-            word = (len_encoded << 12) | offset
-            byte1 = (word >> 8) & 0xFF
-            byte2 = word & 0xFF
-                
-            cmd_bytes = bytearray([byte1, byte2])
-            cmd_cost = 2
-                
-            # Cost is current command size + cost of remaining file starting after the match
-            cost = cmd_cost + min_cost[current_idx + length]
-                
-            if cost < best_cost_for_idx:
-                best_cost_for_idx = cost
-                best_cmd_for_idx = cmd_bytes
 
 def compress_optimal(input_bytes, minimum_span=MINIMUM_SPAN):
     input_len = len(input_bytes)
