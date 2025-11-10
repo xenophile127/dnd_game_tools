@@ -20,7 +20,7 @@ def decompress_data_from_file(filename, start_offset):
 
         if control_byte == 0x80:
             # 1. Terminator Block
-            print(f"[0x{original_offset + comp_idx:x}] TERMINATOR (0x80) found. Stopping.")
+#            print(f"[0x{original_offset + comp_idx:x}] TERMINATOR (0x80) found. Stopping.")
             break
         elif control_byte == 0xfe:
             # 2. Fill command
@@ -39,7 +39,7 @@ def decompress_data_from_file(filename, start_offset):
                 print(f"Error: Reached end of compressed data during raw copy at offset 0x{original_offset + comp_idx:x}.")
                 break
             comp_idx += 1
-            print(f"[0x{original_offset + comp_idx - 4:x}] FILL (0x7e) found. Value: 0x{fill_byte:x}, Len: 0x{length:x}")
+#            print(f"[0x{original_offset + comp_idx - 4:x}] FILL (0x7e) found. Value: 0x{fill_byte:x}, Len: 0x{length:x}")
             for _ in range(length):
                 decompressed_buffer.append(fill_byte)
         elif control_byte == 0xff:
@@ -62,7 +62,7 @@ def decompress_data_from_file(filename, start_offset):
             offset_absolute = struct.unpack('<H', compressed_data[comp_idx:comp_idx+2])[0]
             comp_idx += 2
 
-            print(f"[0x{original_offset + comp_idx - 3:x}] LONG copy. Len: 0x{length:x}, Offset: {offset_absolute}")
+#            print(f"[0x{original_offset + comp_idx - 3:x}] LONG copy. Len: 0x{length:x}, Offset: {offset_absolute}")
 
             for _ in range(length):
                 if offset_absolute < len(decompressed_buffer):
@@ -87,7 +87,7 @@ def decompress_data_from_file(filename, start_offset):
             offset_absolute = struct.unpack('<H', compressed_data[comp_idx:comp_idx+2])[0]
             comp_idx += 2
              
-            print(f"[0x{original_offset + comp_idx - 3:x}] ABSOLUTE copy. Len: 0x{length:x}, Offset: {offset_absolute}")
+#            print(f"[0x{original_offset + comp_idx - 3:x}] ABSOLUTE copy. Len: 0x{length:x}, Offset: {offset_absolute}")
 
             for _ in range(length):
                 if offset_absolute < len(decompressed_buffer):
@@ -101,7 +101,7 @@ def decompress_data_from_file(filename, start_offset):
             # 2. Raw Bytes Block (High bit set)
             comp_idx += 1
             length = control_byte & 0x3F
-            print(f"[0x{original_offset + comp_idx - 1:x}] RAW bytes block. Length: 0x{length:x}")
+#            print(f"[0x{original_offset + comp_idx - 1:x}] RAW bytes block. Length: 0x{length:x}")
             for _ in range(length):
                 if comp_idx < comp_len:
                     decompressed_buffer.append(compressed_data[comp_idx])
@@ -124,7 +124,7 @@ def decompress_data_from_file(filename, start_offset):
             length = ((word & 0x7000) >> 12) + 3
             offset_relative = word & 0x0FFF
                 
-            print(f"[0x{original_offset + comp_idx - 2:x}] RELATIVE copy. Len: 0x{length:x}, Rel Offset: {offset_relative}")
+#            print(f"[0x{original_offset + comp_idx - 2:x}] RELATIVE copy. Len: 0x{length:x}, Rel Offset: {offset_relative}")
 
             start_pos = len(decompressed_buffer) - offset_relative
             for i in range(length):
