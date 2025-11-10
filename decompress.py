@@ -21,6 +21,7 @@ def decompress_data_from_file(filename, start_offset):
         if control_byte == 0x80:
             # 1. Terminator Block
 #            print(f"[0x{original_offset + comp_idx:x}] TERMINATOR (0x80) found. Stopping.")
+            comp_idx += 1
             break
         elif control_byte == 0xfe:
             # 2. Fill command
@@ -136,6 +137,11 @@ def decompress_data_from_file(filename, start_offset):
                     print(f"Error: Relative offset {offset_relative} resulted in out of bounds read at index {source_idx}.")
                     break
                         
+    print(f"Compressed size: 0x{comp_idx:x} ({comp_idx})")
+    print(f"Total decompressed bytes: 0x{len(decompressed_buffer):x} ({len(decompressed_buffer)})")
+    percent = 100 * (1 - (comp_idx / len(decompressed_buffer)))
+    print(f"Compression percent: {percent:.2f}")
+
     return decompressed_buffer
 
 if __name__ == "__main__":
@@ -157,9 +163,7 @@ if __name__ == "__main__":
     decoded_bytes = decompress_data_from_file(filename, offset)
     
     if decoded_bytes is not None:
-        print(f"\nDecompression complete.")
-        print(f"Total decompressed bytes: {len(decoded_bytes)}")
-        # Optional: write decoded_bytes to an output file
+        print(f"Decompression complete.")
         with open("output.bin", "wb") as f_out:
             f_out.write(decoded_bytes)
             print("Wrote output to output.bin")
