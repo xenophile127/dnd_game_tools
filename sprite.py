@@ -149,13 +149,13 @@ if __name__ == "__main__":
              f_out.write(tileset[0x20*num:0x20*(num+1)])
         print("Wrote output to tileset.bin")
         print("Compress with `python compress tileset.bin")
-        print("Ensure compressed size is less than or equal to 0x1c0 (448)"
+        print("Ensure compressed size is less than or equal to 0x1c0 (448)")
         print("Insert at 0x6bdc2")
 
     print("\n--- Sprite Table Entries (Hex) ---")
     for entry in sprite_data:
         hex_repr = ' '.join(f'{b:02X}' for b in entry)
         print(f"{hex_repr}")
-     print("Insert at 0x22872")
+    print("\n Insert at 0x22872")
 
 
