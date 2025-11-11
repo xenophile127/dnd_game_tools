@@ -1,0 +1,19 @@
+# Underscore ('_') is used to represent a space.
+# This allows saving one sprite.
+# Otherwise "habitantes" would encode as three sprites (4,4,2).
+# And "enloquecieron" would encode as four sprites (4,4,4,1).
+# Together as "habitantes_enloquecieron" they can be encoded as only six sprites (4,4,4,4,4,4).
+#
+# The same thing could be done with "tu grupo". This encodes as three sprites (2,4,1),
+# but "tu_grupo" would encode as two (4,4).
+#
+# sprites.py could be smart about doing this (and about substring reuse) but doing it this way was simpler.
+@filename=font.bin # python decompress.py dnd.md 0x50dea ; mv output.bin font.bin
+@fontoffset=0
+@fontorder=_       ()  .   0123456789    &: abcdefghijklmnopqrstuvwxyz # Order of the characters in font.bin
+# 34567890123456789012345678901234567890
+     Tu grupo entero fue derrotado.     #  Your entire party has been defeated.
+      Los habitantes_enloquecieron      #      The townspeople went berserk
+      y destruyeron lo que quedaba      #      and destroyed what was left
+             de tu coltura.             #            of your culture.
+# 34567890123456789012345678901234567890

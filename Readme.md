@@ -10,6 +10,8 @@ Extract a compressed block. Compression is used for tilemaps and tiles. Tilemaps
 Graphics are in the Genesis' native four bits per pixel format.
 
 Known offsets are:
+* `0x22860`: Game over text metasprite object. Format mostly unknown. (*Not compressed!*)
+* `0x22872`: Game over sprite table within the metasprite object. (*Not compressed!*)
 * `0x4da94`: Sidebar tilemap containing the HP labels.
 * `0x509ee`: Tiles for the large font.
 * `0x50dea`: Tiles for the small font used on the title screen and intro.
@@ -38,5 +40,18 @@ Used for the large font screens in the intro. These can be hand-edited from the 
 * In two cases in the Spanish text files there is a ' alone in an otherwise empty line between text lines. The intention is to edit the font to add an acute diacritic which can be positioned in the line above. This has not been added, these are currently ignored bye `encode.py`, and may not be positioned exactly correctly.
 * The English files should be visually identical to the originals, *however* the generated tilemap will be radically different for at least two reasons: spaces are 0x0000 instead of 0x2000 to help with compression (but look identical) and there is a lot of "noise" in the originals--for instance, tile id 1 appearing randomly which is visually identical to tile id 0. This means that there is actually *a lot* of additional useable space.
 
+## sprite.py
+Encode text for the 'game over' effect. Sprites are used to display text over the two background layers. This allows writing in plain text. The text file is at `es/game_over.txt`.
+
+Both a sprite list and a tileset need to be generated. The sprite list is limited to 28 entries and the tileset is limited to 93. There are various ways to extend these limits but `sprite.py` isn't smart about it.
+
+In order to generate the tileset an input font tileset is required. One way to get this is to run `python decompress.py <rom_path> 0x50dea` which will decompress the font used for the titlescreen and intro. The one downside to using this is that the drop shadow is on the oposite side from the tiles normally used.
+
+The other way is to use one of the three (or four?) non-compressed small fonts found in the rom.
+
+Where the tiles are pulled from is controlled by three directives in `game_over.txt`:
+* `@filename`: The path/name to the file with the font tileset.
+* `@fontoffset`: The offset to the font within the file. If you have dumped a font to its own file this will be `0`, but if you choose to use one of the non-compressed fonts directly from the rom you would enter the offset here.
+* `@fontorder`: A text string with all the characters in the font in the order they appear. A space character can be used for any character you are not using. A character (such as '_') can be used to explicitly use a space in your text, which can be useful for reducing the sprite count. This trick had to be used in `es/game_over.txt`.
 
 ## Good luck!
