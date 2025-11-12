@@ -10,6 +10,8 @@ Extract a compressed block. Compression is used for tilemaps and tiles. Tilemaps
 Graphics are in the Genesis' native four bits per pixel format.
 
 Known offsets are:
+* `0x17d88`: Unknown. (Used by credits.)
+* `0x17f5c`: Unknown. (Used by credits.)
 * `0x22860`: Game over text metasprite object. Format mostly unknown. (*Not compressed!*)
 * `0x22872`: Game over sprite table within the metasprite object. (*Not compressed!*)
 * `0x4da94`: Sidebar tilemap containing the HP labels.
@@ -19,8 +21,11 @@ Known offsets are:
 * `0x5122c`: Second intro text (Large font.)
 * `0x5138c`: Third intro text (Large font.)
 * `0x514e8`: Fourth intro text (Large font.)
-* `0x64b14`: Title screen menu. The text "LOAD GAME" appears twice and something copies from the first occurrence for the submenu.
+* `0x5f45c`: Unknown. (Used by credits and titlescreen.)
+* `0x63686`: Unknown. (Used by credits and titlescreen.)
 * `0x63ef6`: The scroll at the end of the intro with text and the game logo.
+* `0x6429e`: Unknown. (Used by credits and titlescreen.)
+* `0x64b14`: Title screen menu. The text "LOAD GAME" appears twice and something copies from the first occurrence for the submenu.
 * `0x64e3a`: Title screen logo graphics.
 * `0x6bdc2`: Party defeated letter tiles. "YOURENTIREPARTYHASBEENDEFEATED" and so on.
 
