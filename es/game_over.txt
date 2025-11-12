@@ -15,5 +15,5 @@
      Tu grupo entero fue derrotado.     #  Your entire party has been defeated.
       Los habitantes_enloquecieron      #      The townspeople went berserk
       y destruyeron lo que quedaba      #      and destroyed what was left
-             de tu coltura.             #            of your culture.
+             de tu cultura.             #            of your culture.
 # 34567890123456789012345678901234567890
